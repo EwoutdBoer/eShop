@@ -1,0 +1,17 @@
+﻿@Catalog.API_HostAddress = http://localhost:5222
+@ApiVersion = 1.0
+
+GET http://localhost:5222/api/catalogbrand/items?api-version={{ApiVersion}}&pageSize=1000&pageIndex=0
+
+###
+
+//GET {{Catalog.API_HostAddress}}/api/catalogbrand/items/type/1/brand/2?api-version={{ApiVersion}}
+
+###
+
+POST http://localhost:5222/api/catalogbrand/items?api-version={{ApiVersion}}
+Content-Type: application/json
+
+{
+  "brand": "Intel"
+}
