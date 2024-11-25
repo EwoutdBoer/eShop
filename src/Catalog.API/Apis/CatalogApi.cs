@@ -255,7 +255,7 @@ public static class CatalogApi
         return TypedResults.Created($"/api/catalog/items/{productToUpdate.Id}");
     }
 
-    public static async Task<Created> CreateItem(
+    public static async Task<Created<ItemCreatedResult>> CreateItem(
         [AsParameters] CatalogServices services,
         CatalogItem product)
     {
@@ -265,7 +265,7 @@ public static class CatalogApi
             CatalogBrandId = product.CatalogBrandId,
             CatalogTypeId = product.CatalogTypeId,
             Description = product.Description,
-            Name = product.Name,
+            Name = product.Name.Length > 50 ? product.Name.Substring(0, 50): product.Name,
             PictureFileName = product.PictureFileName,
             Price = product.Price,
             AvailableStock = product.AvailableStock,
@@ -277,7 +277,11 @@ public static class CatalogApi
         services.Context.CatalogItems.Add(item);
         await services.Context.SaveChangesAsync();
 
-        return TypedResults.Created($"/api/catalog/items/{item.Id}");
+        return TypedResults.Created($"/api/catalog/items/{item.Id}", new ItemCreatedResult(item.Id));
+    }
+
+    public record ItemCreatedResult(long Id)
+    {
     }
 
     public static async Task<Results<NoContent, NotFound>> DeleteItemById(
