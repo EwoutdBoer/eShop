@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Pgvector.EntityFrameworkCore;
 
 namespace eShop.Catalog.API;
@@ -22,8 +23,12 @@ public static class CatalogApi
         // Routes for resolving catalog items by type and brand.
         api.MapGet("/items/type/{typeId}/brand/{brandId?}", GetItemsByBrandAndTypeId);
         api.MapGet("/items/type/all/brand/{brandId:int?}", GetItemsByBrandId);
+        
         api.MapGet("/catalogtypes", async (CatalogContext context) => await context.CatalogTypes.OrderBy(x => x.Type).ToListAsync());
+        api.MapPost("/catalogtypes", CreateType);
+
         api.MapGet("/catalogbrands", async (CatalogContext context) => await context.CatalogBrands.OrderBy(x => x.Brand).ToListAsync());
+        api.MapPost("/catalogbrands", CreateBrand);
 
         // Routes for modifying catalog items.
         api.MapPut("/items", UpdateItem);
@@ -313,6 +318,39 @@ public static class CatalogApi
         ".webp" => "image/webp",
         _ => "application/octet-stream",
     };
+
+    public static async Task<Created> CreateBrand(
+        CreateBrandDto dto,
+        [AsParameters] CatalogServices services)
+    {
+        var item = new CatalogBrand
+        {
+            Brand = dto.Name
+        };
+
+        services.Context.CatalogBrands.Add(item);
+        await services.Context.SaveChangesAsync();
+
+        return TypedResults.Created($"/api/catalogbrands/{item.Id}");
+    }
+
+    public static async Task<Created> CreateType(
+    CreateCatalogTypeDto dto,
+    [AsParameters] CatalogServices services)
+    {
+        var item = new CatalogType
+        {
+            Type = dto.Name
+        };
+
+        services.Context.CatalogTypes.Add(item);
+        await services.Context.SaveChangesAsync();
+
+        return TypedResults.Created($"/api/catalogtypes/{item.Id}");
+    }
+
+    public record CreateBrandDto(string Name);
+    public record CreateCatalogTypeDto(string Name);
 
     public static string GetFullPath(string contentRootPath, string pictureFileName) =>
         Path.Combine(contentRootPath, "Pics", pictureFileName);

@@ -8,6 +8,12 @@ GET {{Catalog.API_HostAddress}}/api/catalog/items?api-version={{ApiVersion}}
 GET {{Catalog.API_HostAddress}}/api/catalog/items/type/1/brand/2?api-version={{ApiVersion}}
 
 ###
+GET {{Catalog.API_HostAddress}}/api/catalog/catalogbrands?api-version={{ApiVersion}}
+
+###
+GET {{Catalog.API_HostAddress}}/api/catalog/catalogtypes?api-version={{ApiVersion}}
+
+###
 
 POST http://localhost:5222/api/catalog/items?api-version={{ApiVersion}}
 Content-Type: application/json

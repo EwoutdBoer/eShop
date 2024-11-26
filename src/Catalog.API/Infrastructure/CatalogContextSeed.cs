@@ -26,6 +26,12 @@ public partial class CatalogContextSeed(
             var sourceJson = File.ReadAllText(sourcePath);
             var sourceItems = JsonSerializer.Deserialize<CatalogSourceEntry[]>(sourceJson);
 
+            if (!sourceItems.Any())
+            {
+                logger.LogError("No catalog items found in {SourcePath} => Stop database seeding", sourcePath);
+                return;
+            }
+
             context.CatalogBrands.RemoveRange(context.CatalogBrands);
             await context.CatalogBrands.AddRangeAsync(sourceItems.Select(x => x.Brand).Distinct()
                 .Select(brandName => new CatalogBrand { Brand = brandName }));

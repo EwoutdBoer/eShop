@@ -5,15 +5,15 @@ public static class CatalogBrandApi
 {
     public static IEndpointRouteBuilder MapCatalogBrandApiV1(this IEndpointRouteBuilder app)
     {
-        var api = app.MapGroup("api/catalogbrand").HasApiVersion(1.0);
+        //var api = app.MapGroup("api/catalogbrand").HasApiVersion(1.0);
 
-        // Routes for querying brands.
-        api.MapGet("/items", GetAllItems);
-        api.MapGet("/items/{id:int}", GetItemById);
+        //// Routes for querying brands.
+        //api.MapGet("/items", GetAllItems);
+        //api.MapGet("/items/{id:int}", GetItemById);
 
-        // Routes for modifying brands.
-        api.MapPut("/items", UpdateItem);
-        api.MapPost("/items", CreateItem);
+        //// Routes for modifying brands.
+        //api.MapPut("/items", UpdateItem);
+        //api.MapPost("/items", CreateItem);
 
         return app;
     }
