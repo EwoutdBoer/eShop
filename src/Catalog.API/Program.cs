@@ -17,8 +17,5 @@ app.MapDefaultEndpoints();
 app.NewVersionedApi("Catalog")
    .MapCatalogApiV1();
 
-app.NewVersionedApi("Brand")
-   .MapCatalogBrandApiV1();
-
 app.UseDefaultOpenApi();
 app.Run();

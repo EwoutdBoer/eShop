@@ -267,6 +267,7 @@ public static class CatalogApi
         var item = new CatalogItem
         {
             Id = product.Id,
+            Sku = product.Sku,
             CatalogBrandId = product.CatalogBrandId,
             CatalogTypeId = product.CatalogTypeId,
             Description = product.Description,

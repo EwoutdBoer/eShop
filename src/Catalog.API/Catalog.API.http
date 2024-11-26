@@ -20,12 +20,13 @@ Content-Type: application/json
 
 {
   "name": "Item1",
+  "sku": "sku1",
   "description": "Description1",
   "price": 100,
   "pictureFileName": "1.webp",
   "AvailableStock": 33,
   "RestockThreshold": 10,
   "MaxStockThreshold": 100,
-  "CatalogTypeId": 1,
-  "CatalogBrandId": 1
+  "CatalogTypeId": 2,
+  "CatalogBrandId": 5
 }
