@@ -25,12 +25,16 @@ public static partial class Extensions
 
         if (app.Environment.IsDevelopment())
         {
-            app.MapScalarApiReference(options =>
+            //app.MapScalarApiReference(options =>
+            //{
+            //    // Disable default fonts to avoid download unnecessary fonts
+            //    options.DefaultFonts = false;
+            //});
+            app.MapScalarApiReference("/api-reference", options => 
             {
-                // Disable default fonts to avoid download unnecessary fonts
                 options.DefaultFonts = false;
             });
-            app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
+            app.MapGet("/", () => Results.Redirect("/api-reference")).ExcludeFromDescription();
         }
 
         return app;

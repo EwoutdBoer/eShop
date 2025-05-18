@@ -49,7 +49,7 @@
     CatalogResult? catalogResult;
 
     static IEnumerable<int> GetVisiblePageIndexes(CatalogResult result)
-        => Enumerable.Range(1, (int)Math.Ceiling(1.0 * result.Count / PageSize));
+        => Enumerable.Range(1, Math.Min((int)Math.Ceiling(1.0 * result.Count / PageSize), 10));
 
     protected override async Task OnInitializedAsync()
     {

@@ -16,10 +16,12 @@
     padding: 0;
     margin: 0;
     border: 0;
+    
 }
 
 .catalog-product-image img {
     max-width: 100%;
+  
 }
 
 .catalog-product .catalog-product-content {

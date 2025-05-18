@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Pgvector.EntityFrameworkCore;
 
 namespace eShop.Catalog.API;
@@ -23,7 +22,8 @@ public static class CatalogApi
         // Routes for resolving catalog items by type and brand.
         api.MapGet("/items/type/{typeId}/brand/{brandId?}", GetItemsByBrandAndTypeId);
         api.MapGet("/items/type/all/brand/{brandId:int?}", GetItemsByBrandId);
-        
+        api.MapGet("/items/type/brand/{brandId:int}/sku/{sku:minlength(1)}", GetItemsByBrandIdAndSku);
+
         api.MapGet("/catalogtypes", async (CatalogContext context) => await context.CatalogTypes.OrderBy(x => x.Type).ToListAsync());
         api.MapPost("/catalogtypes", CreateType);
 
@@ -103,6 +103,23 @@ public static class CatalogApi
             .ToListAsync();
 
         return TypedResults.Ok(new PaginatedItems<CatalogItem>(pageIndex, pageSize, totalItems, itemsOnPage));
+    }
+
+    public static async Task<Results<NotFound, Ok<CatalogItem>>> GetItemsByBrandIdAndSku(
+        [AsParameters] CatalogServices services,
+        int brandId,
+        string sku)
+    {
+        var item = await services.Context.CatalogItems
+            .Where(c => c.Sku.Equals(sku) && c.CatalogBrandId == brandId)
+            .FirstOrDefaultAsync();
+
+        if(item == null)
+        {
+            return TypedResults.NotFound();
+        }
+
+        return TypedResults.Ok(item);
     }
 
     public static async Task<Results<NotFound, PhysicalFileHttpResult>> GetItemPictureById(CatalogContext context, IWebHostEnvironment environment, int catalogItemId)
